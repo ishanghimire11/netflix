@@ -2,27 +2,33 @@
 
 import React from "react";
 import Link from "next/link";
-import { useForm } from "react-hook-form";
+import { redirect } from "next/navigation";
+import { useSession } from "next-auth/react";
 
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { zodResolver } from "@hookform/resolvers/zod";
+} from "@/app/components/ui/form";
+import { Button } from "@/app/components/ui/button";
+import { Input } from "@/app/components/ui/input";
+
 import { SignUpformSchema, signUpformSchema } from "@/validation/validation";
 import Image from "next/image";
 
 const SignUp = () => {
+  const { data: session } = useSession();
+
+  if (session) redirect("/home");
+
   const form = useForm<SignUpformSchema>({
     resolver: zodResolver(signUpformSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
@@ -34,10 +40,7 @@ const SignUp = () => {
     <div className="py-12 px-10 bg-black/40 md:bg-background/80 rounded-md md:w-96">
       <h1 className="font-bold text-4xl pb-12">Sign Up</h1>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-6 pb-12"
-        >
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 pb-4">
           <FormField
             control={form.control}
             name="email"
@@ -55,26 +58,9 @@ const SignUp = () => {
             )}
           />
 
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <Input
-                    placeholder="Password"
-                    {...field}
-                    className="bg-foreground text-background"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           <Button
             type="submit"
-            className="bg-red-600 text-white hover:bg-red-700"
+            className="bg-red-600 text-white hover:bg-red-700 w-full"
           >
             Sign Up
           </Button>
