@@ -42,3 +42,19 @@ export interface MovieCardProps {
   age: number;
   releaseDate: number;
 }
+
+export interface VideoModelProps {
+  id: number;
+  title: string;
+  overview: string;
+  youtube: string;
+  isOpen: boolean;
+  setOpen: (value: boolean) => void;
+}
+
+export interface MovieButtonsProps {
+  id: number;
+  title: string;
+  overview: string;
+  youtube: string;
+}

@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { MovieCardProps } from "@/types";
 import {
   CalendarIcon,
@@ -8,6 +10,7 @@ import {
   Users2,
 } from "lucide-react";
 import { Button } from "./ui/button";
+import VideoModel from "./VideoModel";
 
 const MovieCard = ({
   id,
@@ -20,6 +23,8 @@ const MovieCard = ({
   age,
   releaseDate,
 }: MovieCardProps) => {
+  const [open, setOpen] = useState(false);
+
   return (
     <div>
       <div className="top-2 right-4 absolute z-10">
@@ -40,9 +45,24 @@ const MovieCard = ({
           </form>
         )}
       </div>
-      <div className="absolute -translate-x-2/4 left-2/4 top-2/4 -translate-y-3/4">
-        <PlayCircle className="w-24 h-24" strokeWidth="1" />
+      <div className="absolute -translate-x-2/4 left-2/4 top-2/4 -translate-y-full">
+        <Button
+          variant={"link"}
+          size={"icon"}
+          className="p-0 w-fit h-fit"
+          onClick={() => setOpen(true)}
+        >
+          <PlayCircle className="w-16 h-16" strokeWidth="1" />
+        </Button>
       </div>
+      <VideoModel
+        id={id}
+        isOpen={open}
+        setOpen={setOpen}
+        title={title}
+        overview={overview}
+        youtube={youtube}
+      />
       <div className="absolute bottom-4 pr-4">
         <h3 className="text-3xl font-semibold line-clamp-1">{title}</h3>
         <div className="mt-2 gap-x-4 flex">
@@ -60,6 +80,7 @@ const MovieCard = ({
             {age}+
           </p>
         </div>
+        <p className="line-clamp-2 mt-4">{overview}</p>
       </div>
     </div>
   );
