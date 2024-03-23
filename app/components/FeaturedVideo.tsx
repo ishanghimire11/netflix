@@ -1,6 +1,6 @@
 import React from "react";
 import prisma from "@/app/utils/db";
-import { Button } from "@/app/components/ui/button";
+import MovieButtons from "@/app/components/MovieButtons";
 
 export async function getData() {
   const data = await prisma.movie.findFirst({
@@ -16,6 +16,9 @@ export async function getData() {
       source: true,
       category: true,
     },
+    where: {
+      id: 0,
+    },
   });
   return data;
 }
@@ -29,8 +32,8 @@ const FeaturedVideo = async () => {
         src={data?.source}
         poster={data?.imageUrl}
         muted
-        // loop
-        // autoPlay
+        loop
+        autoPlay
         className="w-full absolute top-0 -z-10 left-0 h-[60dvh] lg:h-[80dvh] object-cover brightness-[30%]"
       ></video>
       <div className="mb-6 lg:mb-12">
@@ -40,8 +43,14 @@ const FeaturedVideo = async () => {
         <p className="lg:max-w-[50%] line-clamp-3">{data?.overview}</p>
       </div>
       <div className="flex gap-x-4">
-        <Button>rafce</Button>
-        <Button variant={"outline"}>rafce</Button>
+        {data && (
+          <MovieButtons
+            id={data.id}
+            title={data.title as string}
+            youtube={data.youtube as string}
+            overview={data.overview as string}
+          />
+        )}
       </div>
     </div>
   );
