@@ -1,6 +1,10 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
+import { signOut, useSession } from "next-auth/react";
+import { LogOutIcon } from "lucide-react";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -11,10 +15,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/app/components/ui/button";
-import { LogOutIcon } from "lucide-react";
-import { signOut } from "next-auth/react";
 
 const UserNav = () => {
+  const { data: session } = useSession();
+
   return (
     <div>
       <DropdownMenu>
@@ -29,19 +33,33 @@ const UserNav = () => {
           align="end"
           className="w-[200px] md:w-[230px] py-2 border-primary-foreground px-4 shadow-md"
         >
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuLabel>Logged in as:</DropdownMenuLabel>
+
           <DropdownMenuSeparator className="bg-primary-foreground" />
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Billing</DropdownMenuItem>
-          <DropdownMenuItem>Team</DropdownMenuItem>
-          <DropdownMenuItem>Subscription</DropdownMenuItem>
+
+          {session?.user?.image && (
+            <DropdownMenuItem>
+              <Image
+                src={session.user.image || ""}
+                alt=""
+                width={40}
+                height={40}
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            </DropdownMenuItem>
+          )}
+          <DropdownMenuItem>{session?.user?.name}</DropdownMenuItem>
+          <DropdownMenuItem>{session?.user?.email}</DropdownMenuItem>
+
           <DropdownMenuSeparator className="bg-primary-foreground" />
+
           <Button
             variant={"ghost"}
             className="inline-flex gap-x-1 w-full justify-start px-2"
             onClick={() => signOut()}
           >
             <span>Sign Out</span>
+
             <LogOutIcon className="w-5 h-5" />
           </Button>
         </DropdownMenuContent>

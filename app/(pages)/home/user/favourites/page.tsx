@@ -30,7 +30,7 @@ const getFavouritesList = async (userId: string) => {
 const FavouritesList = async () => {
   const session = await getServerSession(authOptions);
   if (!session) return null;
-  const data = await getFavouritesList("ddjda");
+  const data = await getFavouritesList(session?.user?.email as string);
 
   return (
     <div className="lg:mt-8 mt-6">
