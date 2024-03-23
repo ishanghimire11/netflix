@@ -7,12 +7,11 @@ import Navbar from "@/app/components/Navbar";
 
 const HomeLayout = async ({ children }: { children: React.ReactNode }) => {
   const session = await getServerSession(authOptions);
-  console.log(session);
   if (!session) {
     return redirect("/sign-in");
   }
   return (
-    <main className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 xl:px-16">
+    <main className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 xl:px-16 py-8">
       <Navbar />
       {children}
     </main>
