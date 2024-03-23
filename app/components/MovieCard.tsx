@@ -9,8 +9,14 @@ import {
   TimerIcon,
   Users2,
 } from "lucide-react";
-import { Button } from "./ui/button";
-import VideoModel from "./VideoModel";
+import { Button } from "@/app/components/ui/button";
+import VideoModel from "@/app/components/VideoModel";
+import { Input } from "@/app/components/ui/input";
+import {
+  addToFavourites,
+  removefromFavourites,
+} from "@/app/actions/favouriteAction/action";
+import { usePathname } from "next/navigation";
 
 const MovieCard = ({
   id,
@@ -24,12 +30,15 @@ const MovieCard = ({
   releaseDate,
 }: MovieCardProps) => {
   const [open, setOpen] = useState(false);
+  const path = usePathname();
 
   return (
     <div>
       <div className="top-2 right-4 absolute z-10">
         {watchLists ? (
-          <form>
+          <form action={removefromFavourites}>
+            <Input type="hidden" name="watchListId" value={watchListId} />
+            <Input type="hidden" name="pathname" value={path} />
             <Button variant={"ghost"} size={"icon"} className="border-0 p-0">
               <Heart
                 className="w-6 h-6 text-red-500 hover:fill-transparent"
@@ -38,7 +47,9 @@ const MovieCard = ({
             </Button>
           </form>
         ) : (
-          <form>
+          <form action={addToFavourites}>
+            <Input type="hidden" name="movieId" value={id} />
+            <Input type="hidden" name="pathname" value={path} />
             <Button variant={"ghost"} size={"icon"} className="group border-0">
               <Heart className="w-6 h-6 hover:fill-red-500" />
             </Button>

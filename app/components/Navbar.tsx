@@ -3,9 +3,10 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { links } from "@/lib/constant";
 import { usePathname } from "next/navigation";
-import UserNav from "./UserNav";
+
+import { links } from "@/lib/constant";
+import UserNav from "@/app/components/UserNav";
 
 const Navbar = () => {
   const pathName = usePathname();

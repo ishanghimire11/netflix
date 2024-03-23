@@ -1,16 +1,19 @@
 import React from "react";
-import prisma from "@/app/utils/db";
 import Image from "next/image";
-import MovieCard from "./MovieCard";
+import { getServerSession } from "next-auth";
 
-const getRecentlyAdded = async () => {
+import prisma from "@/app/utils/db";
+import { authOptions } from "@/app/utils/auth";
+import MovieCard from "@/app/components/MovieCard";
+
+const getRecentlyAdded = async (userId: string) => {
   const data = await prisma.movie.findMany({
     select: {
       id: true,
       title: true,
       imageUrl: true,
       overview: true,
-      WatchLists: true,
+      WatchLists: { where: { userId: userId } },
       duration: true,
       youtube: true,
       age: true,
@@ -26,7 +29,8 @@ const getRecentlyAdded = async () => {
 };
 
 const RecentlyAdded = async () => {
-  const data = await getRecentlyAdded();
+  const session = await getServerSession(authOptions);
+  const data = await getRecentlyAdded(session?.user?.email as string);
 
   return (
     <div>
