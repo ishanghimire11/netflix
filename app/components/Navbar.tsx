@@ -11,7 +11,7 @@ const Navbar = () => {
   const pathName = usePathname();
 
   return (
-    <div className="max-w-7xl mx-auto py-8 flex justify-between">
+    <div className="pb-8 flex justify-between">
       <div className="flex items-center gap-x-16">
         <Link href="/home" className="w-fit inline-block">
           <Image

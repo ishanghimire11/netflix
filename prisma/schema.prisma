@@ -36,6 +36,29 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model Movie {
+  id          Int         @id
+  imageUrl    String
+  title       String
+  age         Int
+  duration    Float
+  overview    String
+  releaseDate Int
+  source      String
+  category    String
+  youtube     String
+  WatchLists  WatchList[]
+  createdAt   DateTime    @default(now())
+}
+
+model WatchList {
+  id     String @id @default(uuid())
+  userId String
+
+  movieId Int?
+  Movie   Movie? @relation(fields: [movieId], references: [id])
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?

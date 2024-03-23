@@ -1,12 +1,14 @@
-import Navbar from "@/app/components/Navbar";
-import Logout from "@/app/logout";
-import { authOptions } from "@/app/utils/auth";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 import React from "react";
+import FeaturedVideo from "@/app/components/FeaturedVideo";
+import RecentlyAdded from "@/app/components/RecentlyAdded";
 
 const HomePage = async () => {
-  return <div>hello</div>;
+  return (
+    <div>
+      <FeaturedVideo />
+      <RecentlyAdded />
+    </div>
+  );
 };
 
 export default HomePage;
